@@ -42,23 +42,76 @@ let rooms = [
   { id: 1, name: 'الغرفة الرئيسية', description: 'غرفة دردشة عامة', background: null }
 ];
 
+const OWNER_EMAIL = 'njdj9985@gmail.com';
+
 let users = [
   {
     id: 1,
-    display_name: 'Admin',
-    rank: 'admin',
-    role: 'admin',
-    email: 'admin@example.com',
-    password: 'admin',
+    display_name: 'المالك',
+    rank: 'owner',
+    role: 'owner',
+    email: OWNER_EMAIL,
+    password: 'owner123',
     profile_image1: null,
     profile_image2: null,
     message_background: null,
     age: null,
     gender: null,
     marital_status: null,
-    about_me: null
+    about_me: null,
+    coins: 999999,
+    frames: ['owner_frame_1', 'owner_frame_2', 'owner_frame_3'],
+    active_frame: 'owner_frame_1',
+    privacy_settings: {
+      profile_visibility: 'all',
+      pm_allowed: 'all',
+      show_age: true,
+      show_status: true,
+      show_last_seen: true
+    }
   }
 ];
+
+let frames = [
+  { id: 'owner_frame_1', name: 'إطار المالك الذهبي', type: 'owner', price: 0, animated: true, purchasable: false, animation: 'rainbow-glow' },
+  { id: 'owner_frame_2', name: 'إطار المالك الفضي', type: 'owner', price: 0, animated: true, purchasable: false, animation: 'pulse-glow' },
+  { id: 'owner_frame_3', name: 'إطار المالك الماسي', type: 'owner', price: 0, animated: true, purchasable: false, animation: 'sparkle-glow' },
+  { id: 'admin_frame_1', name: 'إطار الإدارة 1', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'rainbow-glow' },
+  { id: 'admin_frame_2', name: 'إطار الإدارة 2', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'pulse-glow' },
+  { id: 'admin_frame_3', name: 'إطار الإدارة 3', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'sparkle-glow' },
+  { id: 'admin_frame_4', name: 'إطار الإدارة 4', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'rotate-glow' },
+  { id: 'admin_frame_5', name: 'إطار الإدارة 5', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'slide-glow' },
+  { id: 'admin_frame_6', name: 'إطار الإدارة 6', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'bounce-glow' },
+  { id: 'admin_frame_7', name: 'إطار الإدارة 7', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'wave-glow' },
+  { id: 'admin_frame_8', name: 'إطار الإدارة 8', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'shake-glow' },
+  { id: 'admin_frame_9', name: 'إطار الإدارة 9', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'flip-glow' },
+  { id: 'admin_frame_10', name: 'إطار الإدارة 10', type: 'admin', price: 100000, animated: true, purchasable: true, animation: 'zoom-glow' },
+  { id: 'prince_frame_1', name: 'إطار البرنس 1', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'rainbow-glow' },
+  { id: 'prince_frame_2', name: 'إطار البرنس 2', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'pulse-glow' },
+  { id: 'prince_frame_3', name: 'إطار البرنس 3', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'sparkle-glow' },
+  { id: 'prince_frame_4', name: 'إطار البرنس 4', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'rotate-glow' },
+  { id: 'prince_frame_5', name: 'إطار البرنس 5', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'slide-glow' },
+  { id: 'prince_frame_6', name: 'إطار البرنس 6', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'bounce-glow' },
+  { id: 'prince_frame_7', name: 'إطار البرنس 7', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'wave-glow' },
+  { id: 'prince_frame_8', name: 'إطار البرنس 8', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'shake-glow' },
+  { id: 'prince_frame_9', name: 'إطار البرنس 9', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'flip-glow' },
+  { id: 'prince_frame_10', name: 'إطار البرنس 10', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'zoom-glow' },
+  { id: 'prince_frame_11', name: 'إطار البرنس 11', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'swing-glow' },
+  { id: 'prince_frame_12', name: 'إطار البرنس 12', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'twist-glow' },
+  { id: 'prince_frame_13', name: 'إطار البرنس 13', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'fade-glow' },
+  { id: 'prince_frame_14', name: 'إطار البرنس 14', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'blink-glow' },
+  { id: 'prince_frame_15', name: 'إطار البرنس 15', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'spin-glow' },
+  { id: 'prince_frame_16', name: 'إطار البرنس 16', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'float-glow' },
+  { id: 'prince_frame_17', name: 'إطار البرنس 17', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'stretch-glow' },
+  { id: 'prince_frame_18', name: 'إطار البرنس 18', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'squeeze-glow' },
+  { id: 'prince_frame_19', name: 'إطار البرنس 19', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'jello-glow' },
+  { id: 'prince_frame_20', name: 'إطار البرنس 20', type: 'prince', price: 2000, animated: true, purchasable: true, animation: 'wobble-glow' }
+];
+
+let shopItems = [];
+let musicPlaylist = [];
+let quizRooms = [];
+let auditLog = [];
 
 let messages = [];
 let privateMessages = [];
@@ -101,7 +154,18 @@ app.post('/api/register', (req, res) => {
     age: null,
     gender: null,
     marital_status: null,
-    about_me: null
+    about_me: null,
+    coins: 100,
+    frames: [],
+    active_frame: null,
+    privacy_settings: {
+      profile_visibility: 'all',
+      pm_allowed: 'all',
+      show_age: true,
+      show_status: true,
+      show_last_seen: true
+    },
+    joined_date: new Date()
   };
   users.push(newUser);
   const token = 'fake-token-' + newUser.id;
@@ -310,13 +374,31 @@ app.post('/api/competitions', (req, res) => {
 app.post('/api/assign-rank', (req, res) => {
   const token = req.headers.authorization?.split(' ')[1];
   const admin = users.find(u => 'fake-token-' + u.id === token);
-  if (!admin || admin.role !== 'admin') return res.status(403).json({ error: 'غير مسموح' });
+  if (!admin || (admin.role !== 'owner' && admin.role !== 'admin')) {
+    return res.status(403).json({ error: 'غير مسموح' });
+  }
 
-  const { userId, rank, reason } = req.body;
+  const { userId, rank, role, reason } = req.body;
   const user = users.find(u => u.id === parseInt(userId));
   if (!user) return res.status(404).json({ error: 'المستخدم غير موجود' });
 
+  if (admin.role !== 'owner' && rank === 'owner') {
+    return res.status(403).json({ error: 'فقط المالك يمكنه تعيين رتبة المالك' });
+  }
+
   user.rank = rank;
+  if (role) user.role = role;
+
+  auditLog.push({
+    id: auditLog.length + 1,
+    action: 'assign_rank',
+    adminId: admin.id,
+    userId: user.id,
+    rank,
+    role: role || user.role,
+    reason: reason || 'بدون سبب',
+    timestamp: new Date()
+  });
 
   res.json({ message: 'تم تعيين الرتبة' });
   io.emit('userUpdated', user);
@@ -712,6 +794,150 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('startQuiz', (quizId) => {
+    const quiz = quizRooms.find(q => q.id === parseInt(quizId));
+    if (!quiz) return;
+
+    quiz.currentQuestion = 0;
+    quiz.timer = 20;
+    quiz.active = true;
+
+    io.emit('quizStarted', quiz);
+
+    const quizInterval = setInterval(() => {
+      if (!quiz.active) {
+        clearInterval(quizInterval);
+        return;
+      }
+
+      quiz.timer--;
+
+      if (quiz.timer <= 0) {
+        quiz.currentQuestion++;
+
+        if (quiz.currentQuestion >= quiz.questions.length) {
+          quiz.active = false;
+          io.emit('quizEnded', { quizId: quiz.id, scores: quiz.scores });
+          clearInterval(quizInterval);
+          return;
+        }
+
+        quiz.timer = 20;
+        io.emit('quizNextQuestion', {
+          quizId: quiz.id,
+          currentQuestion: quiz.currentQuestion,
+          question: quiz.questions[quiz.currentQuestion],
+          timer: quiz.timer
+        });
+      } else {
+        io.emit('quizTimerUpdate', { quizId: quiz.id, timer: quiz.timer });
+      }
+    }, 1000);
+  });
+
+  socket.on('playMusic', (songId) => {
+    const song = musicPlaylist.find(s => s.id === parseInt(songId));
+    if (!song) return socket.emit('error', 'الأغنية غير موجودة');
+
+    io.emit('musicPlaying', song);
+  });
+
+  socket.on('stopMusic', () => {
+    io.emit('musicStopped');
+  });
+
+  socket.on('deleteNews', (newsId) => {
+    const user = users.find(u => u.id === socket.user.userId);
+    if (!user || (user.role !== 'owner' && user.role !== 'admin')) {
+      return socket.emit('error', 'غير مسموح');
+    }
+
+    news = news.filter(n => n.id !== parseInt(newsId));
+    io.emit('newsDeleted', newsId);
+
+    auditLog.push({
+      id: auditLog.length + 1,
+      action: 'delete_news',
+      adminId: user.id,
+      newsId: parseInt(newsId),
+      timestamp: new Date()
+    });
+  });
+
+  socket.on('muteWithDuration', (data) => {
+    const user = users.find(u => u.id === socket.user.userId);
+    if (!user || (user.role !== 'owner' && user.role !== 'admin')) {
+      return socket.emit('error', 'غير مسموح');
+    }
+
+    const targetUser = users.find(u => u.id === parseInt(data.userId));
+    if (!targetUser) return socket.emit('error', 'المستخدم غير موجود');
+
+    const duration = data.duration || '5m';
+    const endTime = duration === 'permanent' ? null : new Date(Date.now() + parseDuration(duration));
+
+    const mute = {
+      id: mutes.length + 1,
+      user_id: targetUser.id,
+      reason: data.reason || 'بدون سبب',
+      duration,
+      timestamp: new Date(),
+      endTime
+    };
+
+    mutes.push(mute);
+
+    const showPublicMessage = data.showPublicMessage !== false;
+    if (showPublicMessage) {
+      const muteMessage = {
+        id: messages.length + 1,
+        roomId: data.roomId || 1,
+        content: `تم كتم ${targetUser.display_name} ${duration === 'permanent' ? 'بشكل دائم' : 'لمدة ' + duration}`,
+        type: 'system',
+        timestamp: new Date()
+      };
+      messages.push(muteMessage);
+      io.emit('newMessage', muteMessage);
+    }
+
+    io.emit('userMuted', { userId: targetUser.id, reason: mute.reason, duration, endTime });
+
+    auditLog.push({
+      id: auditLog.length + 1,
+      action: 'mute',
+      adminId: user.id,
+      userId: targetUser.id,
+      reason: mute.reason,
+      duration,
+      timestamp: new Date()
+    });
+  });
+
+  socket.on('addCoins', (data) => {
+    const admin = users.find(u => u.id === socket.user.userId);
+    if (!admin || admin.role !== 'owner') {
+      return socket.emit('error', 'غير مسموح');
+    }
+
+    const targetUser = users.find(u => u.id === parseInt(data.userId));
+    if (!targetUser) return socket.emit('error', 'المستخدم غير موجود');
+
+    if (!targetUser.coins) targetUser.coins = 0;
+    targetUser.coins += parseInt(data.amount);
+
+    io.emit('userUpdated', targetUser);
+    socket.emit('success', `تمت إضافة ${data.amount} كونز لـ ${targetUser.display_name}`);
+
+    auditLog.push({
+      id: auditLog.length + 1,
+      action: 'add_coins',
+      adminId: admin.id,
+      userId: targetUser.id,
+      amount: parseInt(data.amount),
+      timestamp: new Date()
+    });
+  });
+
   // فصل الاتصال
   socket.on('disconnect', () => {
     console.log('مستخدم منفصل: ' + socket.id);
@@ -754,6 +980,245 @@ setInterval(() => {
     return true;
   });
 }, 30000);
+
+app.get('/api/frames', (req, res) => res.json(frames));
+
+app.get('/api/shop', (req, res) => {
+  const purchasableFrames = frames.filter(f => f.purchasable);
+  res.json({ frames: purchasableFrames, items: shopItems });
+});
+
+app.post('/api/shop/purchase', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const user = users.find(u => 'fake-token-' + u.id === token);
+  if (!user) return res.status(401).json({ error: 'غير مصرح له' });
+
+  const { itemId, itemType } = req.body;
+
+  if (itemType === 'frame') {
+    const frame = frames.find(f => f.id === itemId);
+    if (!frame) return res.status(404).json({ error: 'الإطار غير موجود' });
+    if (!frame.purchasable) return res.status(403).json({ error: 'هذا الإطار غير قابل للشراء' });
+
+    if (!user.coins) user.coins = 0;
+    if (user.coins < frame.price) return res.status(400).json({ error: 'رصيد غير كافٍ' });
+
+    if (!user.frames) user.frames = [];
+    if (user.frames.includes(itemId)) return res.status(400).json({ error: 'تمتلك هذا الإطار بالفعل' });
+
+    user.coins -= frame.price;
+    user.frames.push(itemId);
+
+    auditLog.push({
+      id: auditLog.length + 1,
+      action: 'purchase_frame',
+      userId: user.id,
+      details: { frameId: itemId, price: frame.price },
+      timestamp: new Date()
+    });
+
+    res.json({ message: 'تم الشراء بنجاح', user });
+  } else {
+    return res.status(400).json({ error: 'نوع العنصر غير صحيح' });
+  }
+});
+
+app.post('/api/frames/activate', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const user = users.find(u => 'fake-token-' + u.id === token);
+  if (!user) return res.status(401).json({ error: 'غير مصرح له' });
+
+  const { frameId } = req.body;
+
+  if (!user.frames || !user.frames.includes(frameId)) {
+    return res.status(403).json({ error: 'لا تمتلك هذا الإطار' });
+  }
+
+  user.active_frame = frameId;
+  res.json({ message: 'تم تفعيل الإطار', user });
+  io.emit('userUpdated', user);
+});
+
+app.post('/api/owner/change-password', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const owner = users.find(u => 'fake-token-' + u.id === token);
+  if (!owner || owner.role !== 'owner') return res.status(403).json({ error: 'غير مسموح' });
+
+  const { userId, newPassword } = req.body;
+  const user = users.find(u => u.id === parseInt(userId));
+  if (!user) return res.status(404).json({ error: 'المستخدم غير موجود' });
+
+  user.password = newPassword;
+
+  auditLog.push({
+    id: auditLog.length + 1,
+    action: 'change_password',
+    adminId: owner.id,
+    userId: user.id,
+    timestamp: new Date()
+  });
+
+  res.json({ message: 'تم تغيير كلمة المرور بنجاح' });
+});
+
+app.post('/api/owner/change-email', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const owner = users.find(u => 'fake-token-' + u.id === token);
+  if (!owner || owner.role !== 'owner') return res.status(403).json({ error: 'غير مسموح' });
+
+  const { userId, newEmail } = req.body;
+  const user = users.find(u => u.id === parseInt(userId));
+  if (!user) return res.status(404).json({ error: 'المستخدم غير موجود' });
+
+  if (users.find(u => u.email === newEmail && u.id !== user.id)) {
+    return res.status(400).json({ error: 'البريد الإلكتروني مستخدم مسبقاً' });
+  }
+
+  user.email = newEmail;
+
+  auditLog.push({
+    id: auditLog.length + 1,
+    action: 'change_email',
+    adminId: owner.id,
+    userId: user.id,
+    timestamp: new Date()
+  });
+
+  res.json({ message: 'تم تغيير البريد الإلكتروني بنجاح' });
+});
+
+app.post('/api/music/add', upload.single('musicFile'), (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const owner = users.find(u => 'fake-token-' + u.id === token);
+  if (!owner || (owner.role !== 'owner' && owner.role !== 'admin')) {
+    return res.status(403).json({ error: 'غير مسموح' });
+  }
+
+  const { title, artist, url } = req.body;
+  const musicUrl = req.file ? `/Uploads/${req.file.filename}` : url;
+
+  const newSong = {
+    id: musicPlaylist.length + 1,
+    title,
+    artist,
+    url: musicUrl,
+    addedBy: owner.id,
+    timestamp: new Date()
+  };
+
+  musicPlaylist.push(newSong);
+  io.emit('musicAdded', newSong);
+  res.json(newSong);
+});
+
+app.delete('/api/music/:id', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const owner = users.find(u => 'fake-token-' + u.id === token);
+  if (!owner || (owner.role !== 'owner' && owner.role !== 'admin')) {
+    return res.status(403).json({ error: 'غير مسموح' });
+  }
+
+  const songId = parseInt(req.params.id);
+  musicPlaylist = musicPlaylist.filter(s => s.id !== songId);
+  io.emit('musicRemoved', songId);
+  res.json({ message: 'تم حذف الأغنية' });
+});
+
+app.get('/api/music', (req, res) => res.json(musicPlaylist));
+
+app.post('/api/quiz/create', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const owner = users.find(u => 'fake-token-' + u.id === token);
+  if (!owner || owner.role !== 'owner') return res.status(403).json({ error: 'غير مسموح' });
+
+  const { title, questions } = req.body;
+
+  const newQuiz = {
+    id: quizRooms.length + 1,
+    title,
+    questions,
+    currentQuestion: 0,
+    timer: 20,
+    active: true,
+    startTime: new Date(),
+    scores: {}
+  };
+
+  quizRooms.push(newQuiz);
+  io.emit('quizCreated', newQuiz);
+  res.json(newQuiz);
+});
+
+app.get('/api/quiz/:id', (req, res) => {
+  const quiz = quizRooms.find(q => q.id === parseInt(req.params.id));
+  if (!quiz) return res.status(404).json({ error: 'المسابقة غير موجودة' });
+  res.json(quiz);
+});
+
+app.post('/api/quiz/:id/answer', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const user = users.find(u => 'fake-token-' + u.id === token);
+  if (!user) return res.status(401).json({ error: 'غير مصرح له' });
+
+  const quiz = quizRooms.find(q => q.id === parseInt(req.params.id));
+  if (!quiz) return res.status(404).json({ error: 'المسابقة غير موجودة' });
+
+  const { answer } = req.body;
+  const currentQ = quiz.questions[quiz.currentQuestion];
+
+  if (!quiz.scores[user.id]) quiz.scores[user.id] = { name: user.display_name, score: 0 };
+
+  if (answer === currentQ.correct) {
+    quiz.scores[user.id].score += 10;
+  }
+
+  res.json({ correct: answer === currentQ.correct, score: quiz.scores[user.id].score });
+  io.emit('quizUpdated', quiz);
+});
+
+app.get('/api/audit-log', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const owner = users.find(u => 'fake-token-' + u.id === token);
+  if (!owner || owner.role !== 'owner') return res.status(403).json({ error: 'غير مسموح' });
+
+  res.json(auditLog);
+});
+
+app.post('/api/user/privacy', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const user = users.find(u => 'fake-token-' + u.id === token);
+  if (!user) return res.status(401).json({ error: 'غير مصرح له' });
+
+  const { profile_visibility, pm_allowed, show_age, show_status, show_last_seen } = req.body;
+
+  if (!user.privacy_settings) user.privacy_settings = {};
+
+  if (profile_visibility) user.privacy_settings.profile_visibility = profile_visibility;
+  if (pm_allowed) user.privacy_settings.pm_allowed = pm_allowed;
+  if (show_age !== undefined) user.privacy_settings.show_age = show_age;
+  if (show_status !== undefined) user.privacy_settings.show_status = show_status;
+  if (show_last_seen !== undefined) user.privacy_settings.show_last_seen = show_last_seen;
+
+  res.json({ message: 'تم تحديث إعدادات الخصوصية', privacy_settings: user.privacy_settings });
+});
+
+app.post('/api/news/pin', (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const admin = users.find(u => 'fake-token-' + u.id === token);
+  if (!admin || (admin.role !== 'owner' && admin.role !== 'admin')) {
+    return res.status(403).json({ error: 'غير مسموح' });
+  }
+
+  const { newsId } = req.body;
+  const post = news.find(n => n.id === parseInt(newsId));
+  if (!post) return res.status(404).json({ error: 'المنشور غير موجود' });
+
+  post.pinned = !post.pinned;
+  io.emit('newsUpdated', post);
+  res.json({ message: post.pinned ? 'تم التثبيت' : 'تم إلغاء التثبيت', post });
+});
+
+app.use('/public', express.static('public'));
 
 // تشغيل الخادم
 const PORT = process.env.PORT || 3000;

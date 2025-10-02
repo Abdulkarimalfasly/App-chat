@@ -7224,3 +7224,268 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+async function loadFramesShop() {
+    try {
+        const response = await fetch('/api/shop');
+        const data = await response.json();
+
+        const shopContainer = document.getElementById('framesShop');
+        if (!shopContainer) return;
+
+        shopContainer.innerHTML = '<h2>متجر الإطارات</h2>';
+
+        const coinsDisplay = document.createElement('div');
+        coinsDisplay.className = 'coins-display';
+        coinsDisplay.innerHTML = `<h3>💰 رصيدك: ${currentUser?.coins || 0} كونز</h3>`;
+        shopContainer.appendChild(coinsDisplay);
+
+        const framesGrid = document.createElement('div');
+        framesGrid.className = 'frames-grid';
+        framesGrid.style.cssText = 'display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 20px;';
+
+        data.frames.forEach(frame => {
+            const frameCard = document.createElement('div');
+            frameCard.className = 'frame-card ' + frame.animation;
+            frameCard.style.cssText = 'border: 3px solid #ddd; border-radius: 15px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.3s;';
+
+            const owned = currentUser?.frames?.includes(frame.id);
+            const isActive = currentUser?.active_frame === frame.id;
+
+            frameCard.innerHTML = `
+                <div class="frame-preview" style="width: 150px; height: 150px; margin: 0 auto; border-radius: 50%; background: linear-gradient(45deg, #667eea, #764ba2); animation: ${frame.animation} 2s infinite;"></div>
+                <h4>${frame.name}</h4>
+                <p>💎 ${frame.price} كونز</p>
+                ${owned ? (isActive ? '<span style="color: green;">✓ مُفعّل</span>' : '<button onclick="activateFrame(\''+frame.id+'\')">تفعيل</button>') : '<button onclick="purchaseFrame(\''+frame.id+'\')">شراء</button>'}
+            `;
+
+            framesGrid.appendChild(frameCard);
+        });
+
+        shopContainer.appendChild(framesGrid);
+    } catch (error) {
+        console.error('فشل تحميل المتجر:', error);
+    }
+}
+
+async function purchaseFrame(frameId) {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/shop/purchase', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ itemId: frameId, itemType: 'frame' })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('تم الشراء بنجاح!');
+            currentUser = data.user;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadFramesShop();
+        } else {
+            alert(data.error || 'فشل الشراء');
+        }
+    } catch (error) {
+        console.error('خطأ في الشراء:', error);
+    }
+}
+
+async function activateFrame(frameId) {
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch('/api/frames/activate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ frameId })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            alert('تم تفعيل الإطار!');
+            currentUser = data.user;
+            localStorage.setItem('userData', JSON.stringify(currentUser));
+            loadFramesShop();
+        } else {
+            alert(data.error || 'فشل التفعيل');
+        }
+    } catch (error) {
+        console.error('خطأ في التفعيل:', error);
+    }
+}
+
+let currentQuiz = null;
+
+async function loadQuizRoom(quizId) {
+    try {
+        const response = await fetch(`/api/quiz/${quizId}`);
+        const quiz = await response.json();
+
+        currentQuiz = quiz;
+
+        const quizContainer = document.getElementById('quizRoom');
+        if (!quizContainer) return;
+
+        quizContainer.innerHTML = `
+            <h2>${quiz.title}</h2>
+            <div class="quiz-timer">
+                <h1 id="timerDisplay">${quiz.timer}</h1>
+            </div>
+            <div class="quiz-question" id="currentQuestion"></div>
+            <div class="quiz-scores" id="quizScores"></div>
+        `;
+
+        updateQuizDisplay();
+    } catch (error) {
+        console.error('فشل تحميل المسابقة:', error);
+    }
+}
+
+function updateQuizDisplay() {
+    if (!currentQuiz) return;
+
+    const questionDiv = document.getElementById('currentQuestion');
+    const timerDiv = document.getElementById('timerDisplay');
+    const scoresDiv = document.getElementById('quizScores');
+
+    if (timerDiv) {
+        timerDiv.textContent = currentQuiz.timer;
+    }
+
+    if (questionDiv && currentQuiz.questions[currentQuiz.currentQuestion]) {
+        const q = currentQuiz.questions[currentQuiz.currentQuestion];
+        questionDiv.innerHTML = `
+            <h3>${q.question}</h3>
+            <div class="quiz-options">
+                ${q.options.map((opt, idx) => `
+                    <button class="quiz-option" onclick="answerQuiz(${idx})">${opt}</button>
+                `).join('')}
+            </div>
+        `;
+    }
+
+    if (scoresDiv && currentQuiz.scores) {
+        const sortedScores = Object.values(currentQuiz.scores).sort((a, b) => b.score - a.score);
+        scoresDiv.innerHTML = '<h3>لوحة النتائج</h3>' + sortedScores.map((s, idx) => `
+            <div class="score-item">${idx + 1}. ${s.name}: ${s.score} نقطة</div>
+        `).join('');
+    }
+}
+
+async function answerQuiz(answerIndex) {
+    if (!currentQuiz) return;
+
+    try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`/api/quiz/${currentQuiz.id}/answer`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ answer: answerIndex })
+        });
+
+        const data = await response.json();
+
+        if (data.correct) {
+            alert('إجابة صحيحة! +10 نقاط');
+        } else {
+            alert('إجابة خاطئة');
+        }
+    } catch (error) {
+        console.error('خطأ في الإجابة:', error);
+    }
+}
+
+async function loadMusicPlayer() {
+    try {
+        const response = await fetch('/api/music');
+        const playlist = await response.json();
+
+        const playerContainer = document.getElementById('musicPlayer');
+        if (!playerContainer) return;
+
+        playerContainer.innerHTML = '<h2>مشغل الموسيقى</h2>';
+
+        const playlistDiv = document.createElement('div');
+        playlistDiv.className = 'music-playlist';
+
+        playlist.forEach(song => {
+            const songItem = document.createElement('div');
+            songItem.className = 'song-item';
+            songItem.style.cssText = 'padding: 10px; margin: 5px; background: #f0f0f0; border-radius: 8px; cursor: pointer;';
+            songItem.innerHTML = `
+                <h4>${song.title}</h4>
+                <p>${song.artist}</p>
+                <button onclick="playMusic(${song.id})">تشغيل</button>
+            `;
+            playlistDiv.appendChild(songItem);
+        });
+
+        playerContainer.appendChild(playlistDiv);
+    } catch (error) {
+        console.error('فشل تحميل الموسيقى:', error);
+    }
+}
+
+function playMusic(songId) {
+    if (socket) {
+        socket.emit('playMusic', songId);
+    }
+}
+
+function stopMusic() {
+    if (socket) {
+        socket.emit('stopMusic');
+    }
+}
+
+if (socket) {
+    socket.on('quizStarted', (quiz) => {
+        currentQuiz = quiz;
+        updateQuizDisplay();
+    });
+
+    socket.on('quizTimerUpdate', (data) => {
+        if (currentQuiz && currentQuiz.id === data.quizId) {
+            currentQuiz.timer = data.timer;
+            updateQuizDisplay();
+        }
+    });
+
+    socket.on('quizNextQuestion', (data) => {
+        if (currentQuiz && currentQuiz.id === data.quizId) {
+            currentQuiz.currentQuestion = data.currentQuestion;
+            currentQuiz.timer = data.timer;
+            updateQuizDisplay();
+        }
+    });
+
+    socket.on('quizEnded', (data) => {
+        if (currentQuiz && currentQuiz.id === data.quizId) {
+            alert('انتهت المسابقة!');
+            currentQuiz.scores = data.scores;
+            currentQuiz.active = false;
+            updateQuizDisplay();
+        }
+    });
+
+    socket.on('musicPlaying', (song) => {
+        const audio = new Audio(song.url);
+        audio.play();
+        alert(`يتم تشغيل: ${song.title} - ${song.artist}`);
+    });
+
+    socket.on('musicStopped', () => {
+        alert('تم إيقاف الموسيقى');
+    });
+}
